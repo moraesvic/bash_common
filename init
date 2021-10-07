@@ -10,6 +10,12 @@ function getxdir {
 	echo "$(cd "$(dirname "$0")"; pwd -P)"
 }
 
+function getscrdir {
+	# This gets the directory of the script file, no matter
+	# whether it was called by sourcing or ran directly
+
+	echo "$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd -P )"
+}
 
 function find_lib {
 	# This function finds whether the directory of the executable
@@ -77,5 +83,4 @@ function import_dep {
 	done
 }
 
-import_dep bash_common
 
