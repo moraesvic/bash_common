@@ -1,7 +1,6 @@
 #!/bin/bash
 
-. "$(dirname "$0")/init"
-. "$(dirname "$0")/messages"
+# This script must be sourced by init
 
 function printerr {
     >&2 echo -e "($0) $1"    
