@@ -76,8 +76,18 @@ function import_dep {
     	fi
 
 		for f in "$lib/$library/"* ; do
-			if [ -x "$f" ] ; then
-				source "$f"
+
+			# Is file executable?
+			#
+			# Is it a text executable? I don't want to sed into
+			# a binary file.
+			#
+			# Is it a bash file?
+
+			if [[ -x "$f" &&
+				  -n "$(file "$f" | grep -o "text")" && 
+				  -n "$(sed -n '1p' "$f" | grep -o "bash")" ]]
+				then source "$f"
 			fi
 		done
 	done
