@@ -50,6 +50,9 @@ function import_dep {
 	# Call this function with an array of dependencies, e.g.
 	# dep=("file_a" "file_b")
 	# import_dep "${dep[@]}"
+	#
+	# ... or simply ...
+	# import_dep file_a file_b file_c
 	
 	if [ -z "$lib" ] ; then
     	export lib="$(find_lib)"
@@ -73,3 +76,6 @@ function import_dep {
 		done
 	done
 }
+
+import_dep bash_common
+
