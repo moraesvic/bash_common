@@ -1,5 +1,6 @@
 #!/bin/bash
 
+. "$(dirname "$0")/init"
 . "$(dirname "$0")/messages"
 
 function printerr {
@@ -22,12 +23,6 @@ function testfile {
     if [ ! -f "$1" ] ; then
         fatalerr "\"$1\" is not a file."
     fi
-}
-
-function getxdir {
-	# This function outputs the directory of the executable
-	# that is running it -- even if called by another program
-	echo "$(cd "$(dirname "$0")"; pwd -P)"
 }
 
 function find_git {
@@ -64,40 +59,6 @@ function find_git {
 		>&2 echo "This is not a git repository, nor is any of the parent directories"
 	else
 		echo "$final_dir"
-	fi
-
-	cd "$start_dir"
-}
-
-function find_lib {
-	# This function finds whether the directory of the executable
-	# or any of the parent directories are a library directory
-
-	# If the option -h is passed, it will use the current path
-	# instead of the path of the executable
-
-	start_dir="$(pwd)"
-
-	for arg in "$@" ; do
-		if [ "$arg" = "-h" ] ; then
-			cd "$(getxdir)"
-			break
-		fi
-	done
-
-	while [[ ! -d "lib" \
-		&& ! "$(pwd -P)" == "/" ]] ; do
-	
-		cd ..
-	
-	done
-	
-	final_dir="$(pwd -P)"
-	
-	if [[ "$final_dir" == "/" ]] ; then
-		>&2 echo "No library directory found!"
-	else
-		echo "$final_dir/lib"
 	fi
 
 	cd "$start_dir"
