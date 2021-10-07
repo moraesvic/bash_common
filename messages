@@ -9,9 +9,11 @@ yellow="\033[0;33m"
 no_color="\033[0m"
 
 check="${green}CHECK${no_color}"
-error="${red}ERROR${no_color}"
 success="${green}SUCCESS${no_color}"
 done="${green}Done${no_color}"
+ok="${green}ok${no_color}"
+
+error="${red}ERROR${no_color}"
 
 function print_eof {
 	if [ -n "$1" ] ; then
@@ -21,4 +23,10 @@ function print_eof {
     	    echo -e "$line"
 	    done < /dev/stdin
 	fi
+}
+
+function warning {
+    >&2 printf "${yellow}"
+    >&2 print_eof "$1"
+    >&2 printf "${no_color}"
 }
