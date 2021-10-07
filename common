@@ -1,11 +1,13 @@
 #!/bin/bash
 
+. "$(dirname "$0")/messages"
+
 function printerr {
     >&2 echo -e "($0) $1"    
 }
 
 function fatalerr {
-    printerr "ERROR: $1 Exiting..."
+    printerr "${error} $1 Exiting..."
     exit 1
 }
 
