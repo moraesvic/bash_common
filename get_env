@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+function get_env {
+	# env_file , key
+	if [ $# -ne 2 ] ; then
+		>&2 echo -e "usage: $0 env_file key"
+		exit 1
+	fi
+
+	env_file="$1"
+	key="$2"
+
+	if [ ! -f "$env_file" ] ; then
+		>&2 echo -e "$env_file is not a file"
+		exit 1
+	fi
+	if [ -z "$key" ] ; then
+		>&2 echo -e "key cannot be empty string"
+		exit 1
+	fi
+
+	sed -rn "s/^$key=(.*)$/\1/p" "$env_file"
+}
+
+if [[ "${BASH_SOURCE[0]}" == "$0" ]] ; then
+	get_env "$@"
+fi
