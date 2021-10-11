@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+function set_env {
+	# env_file , key , value
+	if [ $# -ne 3 ] ; then
+		>&2 echo -e "usage: $0 env_file key value"
+		exit 1
+	fi
+
+	env_file="$1"
+	key="$2"
+	value="$3"
+
+	if [ ! -f "$env_file" ] ; then
+		>&2 echo -e "$env_file is not a file"
+		exit 1
+	fi
+	if [ -z "$key" ] ; then
+		>&2 echo -e "key cannot be empty string"
+		exit 1
+	fi
+	if [ -z "$value" ] ; then
+		>&2 echo -e "warning: setting value as empty string"
+	fi
+
+	if ! grep -E -q "^$key=" "$env_file" ; then
+		# Key was not yet defined
+		echo "$key=$value" >> "$env_file"
+	else
+		# Key was already defined
+		sed -ri "s/^($key=)(.*)$/\1$value/"  "$env_file"
+	fi
+}
+
+if [[ "${BASH_SOURCE[0]}" == "$0" ]] ; then
+	set_env "$@"
+fi

@@ -6,7 +6,7 @@
 
 function getxdir {
 	# This function outputs the directory of the executable
-	# that is running it -- even if called by another program
+	# that is running it -- without symbolic links
 	echo "$(cd "$(dirname "$0")"; pwd -P)"
 }
 
